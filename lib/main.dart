@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:p_m_m/home/Screeen_home.dart';
+import 'package:p_m_m/models/category/category_model.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized(); //Checking the packages and all whether its there or not
+  await Hive.initFlutter();
+
+  //Adapters Registration (CategoryType)
+  if (!Hive.isAdapterRegistered(CategoryTypeAdapter().typeId)) {
+    Hive.registerAdapter(CategoryTypeAdapter());
+  }
+
+  // (Categorymodel)
+  if (!Hive.isAdapterRegistered(CategoryModelAdapter().typeId)) {
+    Hive.registerAdapter(CategoryModelAdapter());
+  }
+  
   runApp(const MyApp());
 }
 
