@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:p_m_m/category/expense_category_list.dart';
+import 'package:p_m_m/category/income_category_list.dart';
 
 
 class ScreenCategory extends StatefulWidget {
@@ -30,6 +32,15 @@ class _ScreenCategoryState extends State<ScreenCategory>  with SingleTickerProvi
             Tab(text: 'INCOME',),
             Tab(text: 'EXPENSE',),
           ],
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: const[
+              IncomeCategoryList(),
+              ExpenseCategoryList(),
+            ],
+          ),
         ),
       ],
     );
