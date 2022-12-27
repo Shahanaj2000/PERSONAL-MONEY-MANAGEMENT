@@ -21,6 +21,10 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        title: const Text('MONEY MANAGEMENT'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: ValueListenableBuilder(
           valueListenable: selectedIndexNotifier,
@@ -29,6 +33,16 @@ class ScreenHome extends StatelessWidget {
           },
         ),
 
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (selectedIndexNotifier.value == 0) {
+            print('Add Transaction');
+          } else {
+            print("Add Categorey");
+          }
+        },
+        child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const MoneyManagementBottomNavigation(),
     );
