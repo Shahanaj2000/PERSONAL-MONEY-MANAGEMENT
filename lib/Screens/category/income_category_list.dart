@@ -20,7 +20,9 @@ class IncomeCategoryList extends StatelessWidget {
           child: ListTile( 
             leading: Text(category.name),
             trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                CategoryDB.instance.deleteCategory(category.id);
+              },
               icon: const Icon(Icons.delete, color: Colors.red,),
             ),
           ),
