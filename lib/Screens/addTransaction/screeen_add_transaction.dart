@@ -17,6 +17,15 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
   DateTime? _selectedDate;
   CategoryType? _selectedCatogoryType;
   CategoryModel? _selectedCategoryModel;
+
+  String? _CategoryID; //To Display the selected categoory on that dropdown (selectedCategory)
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _selectedCatogoryType = CategoryType.income; //default we set income
+    super.initState();
+  }
   //! Data for Transaction
 
   @override
@@ -74,9 +83,12 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                     children: [
                       Radio(
                         value: CategoryType.income,
-                        groupValue: CategoryType.income,
+                        groupValue: _selectedCatogoryType,
                         onChanged: (newValue) {
-
+                          setState(() {
+                            _selectedCatogoryType = CategoryType.income;
+                          });
+                          
                         },
                       ),
                       const Text('Income'),
@@ -88,9 +100,11 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                     children: [
                       Radio(
                         value: CategoryType.expense,
-                        groupValue: CategoryType.expense,
+                        groupValue: _selectedCatogoryType,
                         onChanged: (newValue) {
-
+                          setState(() {
+                            _selectedCatogoryType = CategoryType.expense;
+                          });
                         },
                       ),
                       const Text('Expense'),
@@ -102,7 +116,13 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
               const SizedBox(height: 10,),
               DropdownButton(
                 hint: const Text("Select Category"),
-                items: CategoryDB().expenseCategoryListListner.value.map((e) {
+                value: _CategoryID, //
+                //! To display in Drowpdoown items if we select income it shows income categoreies else other
+                items: (_selectedCatogoryType == CategoryType.income 
+                    ? CategoryDB().incomeCategoryListListner
+                    : CategoryDB().expenseCategoryListListner)
+                    .value
+                    .map((e) {
                   return DropdownMenuItem(
                     value: e.id,
                     child: Text(e.name),
@@ -111,6 +131,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
 
                 onChanged: (selectedValue) {
                   print(selectedValue);
+                  setState(() {
+                    _CategoryID = selectedValue;
+                  });
                 },
               ),
               const SizedBox(height: 10,),
