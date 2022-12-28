@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/models/category/category_model.dart';
 
 //! To change the UI for (Radio Button) to set default income category 
@@ -8,6 +9,7 @@ ValueNotifier<CategoryType> selectedCategoyNotifier = ValueNotifier(CategoryType
 
 
 Future<void> showCategoryAddPopup(BuildContext context) async {
+  final _nameEditingController = TextEditingController();
   showDialog(
     context: context,
     builder: (ctx) {
@@ -17,6 +19,7 @@ Future<void> showCategoryAddPopup(BuildContext context) async {
            Padding(
              padding: const EdgeInsets.all(10.0),
              child: TextFormField(
+              controller: _nameEditingController,
               decoration: const InputDecoration(
                 hintText: 'Category Name',
                 border: OutlineInputBorder()
@@ -38,7 +41,24 @@ Future<void> showCategoryAddPopup(BuildContext context) async {
            Padding(
              padding: const EdgeInsets.all(20.0),
              child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                final _name = _nameEditingController.text;
+                if (_name.isEmpty) {
+                  return;
+                }
+
+                final _type = selectedCategoyNotifier.value;
+
+                final _categoey =
+                    CategoryModel(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  name: _name,
+                  type: _type,
+                );
+
+                CategoryDB().insertCategory(_categoey);
+                Navigator.of(ctx).pop();
+              },
               child: const Text('Add'),
           ),
            ),

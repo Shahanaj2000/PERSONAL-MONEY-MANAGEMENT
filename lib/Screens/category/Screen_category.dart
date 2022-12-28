@@ -19,10 +19,7 @@ class _ScreenCategoryState extends State<ScreenCategory>  with SingleTickerProvi
   @override
   void initState() {
     _tabController =TabController(length: 2, vsync: this);
-    CategoryDB().getCategoreies().then((value) => {
-      print('Categories Get'),
-      print(value.toString()),
-    });
+    CategoryDB().refreshUI();
     super.initState();
   }
   @override

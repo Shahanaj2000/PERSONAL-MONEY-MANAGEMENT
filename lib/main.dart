@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/home/Screeen_home.dart';
 import 'package:p_m_m/models/category/category_model.dart';
 
 Future<void> main() async{
+  final obj1 = CategoryDB();
+  final obj2 = CategoryDB();
+  print('Object Comparing');
+  print(obj1 == obj2);
   WidgetsFlutterBinding.ensureInitialized(); //Checking the packages and all whether its there or not
   await Hive.initFlutter();
 
