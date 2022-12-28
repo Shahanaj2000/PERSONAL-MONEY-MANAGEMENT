@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:p_m_m/Screens/addTransaction/screeen_add_transaction.dart';
 import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/home/Screeen_home.dart';
 import 'package:p_m_m/models/category/category_model.dart';
@@ -51,6 +52,12 @@ class MyApp extends StatelessWidget {
       ),
       
       home: const ScreenHome(),
+      routes: {
+         ScreenAddTransaction.routeName: (ctx) => const ScreenAddTransaction(),
+      }
+
+      
+      
     );
   }
 }
