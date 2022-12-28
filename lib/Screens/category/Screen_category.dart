@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:p_m_m/category/expense_category_list.dart';
-import 'package:p_m_m/category/income_category_list.dart';
+import 'package:p_m_m/Screens/category/expense_category_list.dart';
+import 'package:p_m_m/Screens/category/income_category_list.dart';
 
 
 class ScreenCategory extends StatefulWidget {
