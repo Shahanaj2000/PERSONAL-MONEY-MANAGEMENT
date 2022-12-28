@@ -43,14 +43,14 @@ class ScreenHome extends StatelessWidget {
             print('Add Transaction');
           } else {
             print("Add Categorey");
-            final _sample = CategoryModel(
+            /*final _sample = CategoryModel(
               id: DateTime.now().microsecondsSinceEpoch.toString(),
               name: 'Food',
               type: CategoryType.expense,
             );
-            CategoryDB().insertCategory(_sample);
+            CategoryDB().insertCategory(_sample);*/
             
-            //showCategoryAddPopup(context);
+            showCategoryAddPopup(context);
           }
         },
         child: const Icon(Icons.add),
