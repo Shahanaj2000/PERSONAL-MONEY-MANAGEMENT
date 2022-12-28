@@ -32,4 +32,9 @@ class CategoryModel {
     this.isDeleted = false,
   });
 
+  @override
+  String toString() {
+    // TODO: implement toString
+    return '{$name, $type}';
+  }
 }

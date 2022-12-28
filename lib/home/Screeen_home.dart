@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:p_m_m/Screens/category/Screen_category.dart';
 import 'package:p_m_m/Screens/category/category_add_popup.dart';
+import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/home/widgets/bottom_nav.dart';
 import 'package:p_m_m/Screens/transactions/Screen_transaction.dart';
+import 'package:p_m_m/models/category/category_model.dart';
 
 
 class ScreenHome extends StatelessWidget {
@@ -41,8 +43,14 @@ class ScreenHome extends StatelessWidget {
             print('Add Transaction');
           } else {
             print("Add Categorey");
+            final _sample = CategoryModel(
+              id: DateTime.now().microsecondsSinceEpoch.toString(),
+              name: 'Food',
+              type: CategoryType.expense,
+            );
+            CategoryDB().insertCategory(_sample);
             
-            showCategoryAddPopup(context);
+            //showCategoryAddPopup(context);
           }
         },
         child: const Icon(Icons.add),
