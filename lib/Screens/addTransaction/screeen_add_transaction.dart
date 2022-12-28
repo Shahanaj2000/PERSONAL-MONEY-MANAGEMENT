@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/models/category/category_model.dart';
 
 
-class ScreenAddTransaction extends StatelessWidget {
+class ScreenAddTransaction extends StatefulWidget {
 
   static const routeName = 'add-transactions';
 
   const ScreenAddTransaction({super.key});
-  //! Data for Transaction
-  /* 
-  Pupose
-  Date
-  Amount
-  Income/Expense
-  CategoryType
 
-  */
+  @override
+  State<ScreenAddTransaction> createState() => _ScreenAddTransactionState();
+}
+
+class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
+  DateTime? _selectedDate;
+  CategoryType? _selectedCatogoryType;
+  CategoryModel? _selectedCategoryModel;
+  //! Data for Transaction
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class ScreenAddTransaction extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 keyboardType: TextInputType.text,
@@ -41,11 +44,29 @@ class ScreenAddTransaction extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10,),
+              //if (_selectedDate == null)
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () async{
+                  final _selectedDateTemp = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now().subtract(const Duration(days: 30)),
+                    lastDate: DateTime.now(),
+                  );
+                  if (_selectedDateTemp == null) {
+                    return;
+                  } else {
+                    print(_selectedDateTemp.toString());
+                    setState(() {
+                      _selectedDate = _selectedDateTemp;
+                    });
+                  }
+                },
                 icon: const Icon(Icons.calendar_today),
-                label: const Text('Select Data'),
-              ),
+                label:  Text( _selectedDate == null ?'Select Data' : _selectedDate!.toString()),
+              ), //else
+               // Text(_selectedDate.toString()),
+                
               const SizedBox(height: 10,),
               Row(
                 children: [
@@ -63,6 +84,7 @@ class ScreenAddTransaction extends StatelessWidget {
                   ),
 
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Radio(
                         value: CategoryType.expense,
@@ -73,6 +95,33 @@ class ScreenAddTransaction extends StatelessWidget {
                       ),
                       const Text('Expense'),
                     ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10,),
+              DropdownButton(
+                hint: const Text("Select Category"),
+                items: CategoryDB().expenseCategoryListListner.value.map((e) {
+                  return DropdownMenuItem(
+                    value: e.id,
+                    child: Text(e.name),
+                  );
+                }).toList(),
+
+                onChanged: (selectedValue) {
+                  print(selectedValue);
+                },
+              ),
+              const SizedBox(height: 10,),
+              //! Submit Button
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
