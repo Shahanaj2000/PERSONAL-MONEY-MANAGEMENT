@@ -4,6 +4,7 @@ import 'package:p_m_m/Screens/addTransaction/screeen_add_transaction.dart';
 import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/home/Screeen_home.dart';
 import 'package:p_m_m/models/category/category_model.dart';
+import 'package:p_m_m/models/transaction/transaction_model.dart';
 
 Future<void> main() async{
   final obj1 = CategoryDB();
@@ -21,6 +22,11 @@ Future<void> main() async{
   // (Categorymodel)
   if (!Hive.isAdapterRegistered(CategoryModelAdapter().typeId)) {
     Hive.registerAdapter(CategoryModelAdapter());
+  }
+
+  //Transaction Model
+  if (!Hive.isAdapterRegistered(TransactionModelAdapter().typeId)) {
+    Hive.registerAdapter(TransactionModelAdapter());
   }
   
   runApp(const MyApp());
