@@ -87,6 +87,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                         onChanged: (newValue) {
                           setState(() {
                             _selectedCatogoryType = CategoryType.income;
+                            _CategoryID = null;
                           });
                           
                         },
@@ -104,6 +105,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                         onChanged: (newValue) {
                           setState(() {
                             _selectedCatogoryType = CategoryType.expense;
+                            _CategoryID =null;
                           });
                         },
                       ),
