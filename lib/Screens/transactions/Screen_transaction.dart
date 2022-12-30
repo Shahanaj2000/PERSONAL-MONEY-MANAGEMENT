@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:p_m_m/db/transaction/transaction_db.dart';
+import 'package:p_m_m/models/transaction/transaction_model.dart';
 
 
 class ScreenTransaction extends StatelessWidget {
@@ -7,10 +9,16 @@ class ScreenTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    TransactionDB.instance.refreshUI();
+    return ValueListenableBuilder(
+      valueListenable: TransactionDB.instance.transactionListNotifier,
+      builder: (BuildContext ctx, List<TransactionModel> newList, Widget?_) {
+        return ListView.separated(
       padding: const EdgeInsets.all(13),
+      //!Values
       itemBuilder: (BuildContext ctx, int index) {
-          return const Card(
+        final _value = newList[index];
+          return  Card(
             child: ListTile(
               leading: CircleAvatar(
                 radius: 50,
@@ -19,8 +27,8 @@ class ScreenTransaction extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              title: Text('₹200000'),
-              subtitle: Text('Travel'),
+              title: Text('₹${_value.amount}'),
+              subtitle: Text(_value.category.name), //Category Model
             ),
           );
       },
@@ -29,7 +37,9 @@ class ScreenTransaction extends StatelessWidget {
           height: 10,
         );
       },
-      itemCount: 20,
+      itemCount: newList.length,
+    );
+      },
     );
   }
 }
