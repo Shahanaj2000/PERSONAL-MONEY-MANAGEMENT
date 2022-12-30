@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/db/transaction/transaction_db.dart';
+import 'package:p_m_m/models/category/category_model.dart';
 import 'package:p_m_m/models/transaction/transaction_model.dart';
 
 
@@ -10,6 +13,7 @@ class ScreenTransaction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUI();
+    CategoryDB.instance.refreshUI();
     return ValueListenableBuilder(
       valueListenable: TransactionDB.instance.transactionListNotifier,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget?_) {
@@ -23,9 +27,13 @@ class ScreenTransaction extends StatelessWidget {
               leading: CircleAvatar(
                 radius: 50,
                 child: Text(
-                  "01\nDec",
+                  parseDate(_value.date),
                   textAlign: TextAlign.center,
                 ),
+                //! to give color depends on income or category
+                backgroundColor: _value.type == CategoryType.income 
+                  ? Colors.green 
+                  : Colors.red,
               ),
               title: Text('₹${_value.amount}'),
               subtitle: Text(_value.category.name), //Category Model
@@ -41,5 +49,15 @@ class ScreenTransaction extends StatelessWidget {
     );
       },
     );
+
+   
   }
+   //! UI change for date
+    String parseDate(DateTime date) {
+      final _date = DateFormat.MMMd().format(date);
+      //! Split the Date i want date in this ways 26 Dec
+      final _splitDate = _date.split(' ');
+      return '${_splitDate.last} \n ${_splitDate.first}';
+      //return '${date.day}\n${date.month}';
+    }
 }

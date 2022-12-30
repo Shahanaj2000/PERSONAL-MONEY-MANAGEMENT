@@ -157,8 +157,10 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      addTransaction;
+                      addTransaction();
+                      
                     },
+                    
                     child: const Text('Submit'),
                   ),
                 ],
@@ -185,9 +187,9 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     if (_selectedDate == null) {
       return;
     }
-    if (_CategoryID == null) {
+    /*if (_CategoryID == null) {
       return;
-    }
+    }*/
     //! To check whether the typed amount is string or not / we want the amount in double
     final _parseAmount = double.tryParse(_amountText);
 
@@ -200,7 +202,7 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
     }
 
     //! Create Transaction Model
-    final _model = TransactionModel(
+    final _model = TransactionModel (
       puspose: _purposeText,
       amount: _parseAmount,
       date: _selectedDate!,
@@ -208,6 +210,8 @@ class _ScreenAddTransactionState extends State<ScreenAddTransaction> {
       category: _selectedCategoryModel! ,
     );
 
-    TransactionDB.instance.addTransaction(_model);
+    await TransactionDB.instance.addTransaction(_model);
+    Navigator.of(context).pop();
+    TransactionDB.instance.refreshUI();
   }
 }
