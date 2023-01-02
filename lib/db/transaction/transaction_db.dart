@@ -10,6 +10,7 @@ const TRANSACTION_DB_NAME = 'transaction-db';
 abstract class TransactionDbFunction {
   Future<void> addTransaction(TransactionModel transaction); //TimeConsuming Task thats why we did it has future
   Future<List<TransactionModel>> getAllTransaction();
+  Future<void> deleteTransaction(String id);
 }
 
 
@@ -49,6 +50,13 @@ class TransactionDB implements TransactionDbFunction {
   Future<List<TransactionModel>> getAllTransaction() async {
     final _db = await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
     return _db.values.toList();
+  }
+  
+  @override
+  Future<void> deleteTransaction(String id) async{
+    final _db = await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+    _db.delete(id);
+    refreshUI(); 
   }
 
 }

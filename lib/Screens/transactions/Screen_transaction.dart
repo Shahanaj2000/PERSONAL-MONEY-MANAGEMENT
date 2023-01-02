@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:p_m_m/db/category/category_db.dart';
 import 'package:p_m_m/db/transaction/transaction_db.dart';
@@ -22,21 +23,38 @@ class ScreenTransaction extends StatelessWidget {
       //!Values
       itemBuilder: (BuildContext ctx, int index) {
         final _value = newList[index];
-          return  Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 50,
-                child: Text(
-                  parseDate(_value.date),
-                  textAlign: TextAlign.center,
+          return  Slidable(
+            key: Key(_value.id!),
+            startActionPane:  ActionPane(
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (ctx){
+                    TransactionDB.instance.deleteTransaction(_value.id!);
+                  },
+                  icon: Icons.delete,
+                  label: 'Delete',
+                  backgroundColor: Colors.red,
+                  //foregroundColor: Colors.red[400],
                 ),
-                //! to give color depends on income or category
-                backgroundColor: _value.type == CategoryType.income 
-                  ? Colors.green 
-                  : Colors.red,
+              ],
+            ),
+            child: Card(
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 50,
+                  child: Text(
+                    parseDate(_value.date),
+                    textAlign: TextAlign.center,
+                  ),
+                  //! to give color depends on income or category
+                  backgroundColor: _value.type == CategoryType.income 
+                    ? Colors.green 
+                    : Colors.red,
+                ),
+                title: Text('₹${_value.amount}'),
+                subtitle: Text(_value.category.name), //Category Model
               ),
-              title: Text('₹${_value.amount}'),
-              subtitle: Text(_value.category.name), //Category Model
             ),
           );
       },
